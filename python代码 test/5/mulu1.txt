@@ -1,0 +1,4 @@
+402001 http://shakespeare.mit.edu/Poetry/LoversComplaint.html
+403001 http://shakespeare.mit.edu/Poetry/RapeOfLucrece.html
+404001 http://shakespeare.mit.edu/Poetry/VenusAndAdonis.html
+405001 http://shakespeare.mit.edu/Poetry/elegy.html

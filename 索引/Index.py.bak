@@ -1,0 +1,87 @@
+#-*- coding:utf-8 -*-
+'''
+@author birdy qian
+'''
+
+import sys
+import pickle					#使用pickle模块将数据对象保存到文件
+from nltk import *																							#import natural-language-toolkit
+from operator import itemgetter																	#for sort
+
+
+STOPWORDS = []																							#grobal variable
+
+def output_index(result):
+	#print result
+
+	output = open('data.pkl', 'wb')
+	pickle.dump(result, output)																		# Pickle dictionary using protocol 0
+	output.close()
+
+
+def pre_file(filename): 
+	global STOPWORDS
+	print("read file %s.txt....."%filename) 															#show process
+	content = open( str(filename) + '.txt', "r").read()
+	content = content.lower()
+	for ch in '!"#$%&()*+,-./:;<=>?@[\\]^_‘{|}~' :											#cancel the punction
+		content = content.replace(ch, " ")
+	
+	for ch in  STOPWORDS:																				#cancel the stopwords
+		content = content.replace(ch, " ")		
+
+	plurals = content.split()																				#split the file at '\n' or ' '
+
+	stemmer = PorterStemmer()																		#prepare for stemming
+	singles = [stemmer.stem(plural) for plural in plurals]									#handling stemming
+
+	return singles
+
+def readfile(filename):
+    #建立词表  
+	input = open(filename, 'r')																		#titles that need to be handled
+	all_the_file =input.read( )
+	words = all_the_file.split()																			#split the file at '\n' or ' '
+	input.close()			
+	return words
+
+
+
+#main function
+def main(): 
+	global STOPWORDS
+	print "read index....."																					#show process
+	file=readfile('index.txt')
+	print "read stopwords....."	
+	STOPWORDS = readfile('stop_word.txt')  
+
+
+	print "create word list....."
+	word = list(readfile('thefile.txt'))																		#the file with all the words in all the books
+	result = {}																										#memorize the result 
+	#set_data = set(sp_data) #cancel the repeat word
+
+	for x in range( 0, len(file) ):
+		#print file[x]
+		
+		txt = pre_file( file[x] )																					# file[x] is the title 
+		txt =  {}.fromkeys(txt).keys()																		#cancel the repeat word
+		#can also use text.set()															
+
+		for words in txt :
+			words =words.decode('utf-8').encode(sys.getfilesystemencoding())		#change string typt from utf-8 to gbk
+			if result.get(words) == None :																#if the word is not in the dictionary
+				result[words]=[file[x]]
+			else:																										#if the word is in the dictionary
+				t=result.get(words)
+				t.append(file[x])
+				result[words]=t
+
+	
+	output_index(result)
+	
+
+		
+#runfile
+if __name__ == '__main__': 
+    main() 

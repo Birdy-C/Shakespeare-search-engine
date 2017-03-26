@@ -1,0 +1,3 @@
+101001 http://shakespeare.mit.edu/allswell/allswell.1.1.html
+101002 http://shakespeare.mit.edu/allswell/allswell.1.2.html
+101003 http://shakespeare.mit.edu/allswell/allswell.1.3.html
